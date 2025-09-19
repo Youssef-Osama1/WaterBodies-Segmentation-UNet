@@ -23,7 +23,7 @@ We use a **U-Net architecture built from scratch** to train and evaluate the mod
    - Visualized the 12 spectral bands individually.  
    - Displayed example binary masks corresponding to the images.  
 
-   ![Satellite Bands](d95933d3-60de-471f-9363-d23de1d1d36a.jpg)
+   ![Satellite Bands](assets/Satellite%20Bands.jpeg)
 
 4. **Model Architecture and Training**  
    - Implemented a **U-Net** with encoder–decoder structure.  
@@ -43,7 +43,7 @@ Final model performance on the test set:
 
 Example of prediction vs ground truth:  
 
-![Prediction Example](prediction_example.png)
+![Prediction Example](assets/Prediction%20Example.png)
 
 ---
 
