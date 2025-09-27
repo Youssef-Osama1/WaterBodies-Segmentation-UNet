@@ -1,54 +1,78 @@
-# Water Body Segmentation from Satellite Images
+# 🌊 Water Body Segmentation from Satellite Images using Multispectral & Optical Data
 
-This project applies **deep learning** techniques to segment water bodies from **multispectral satellite imagery**.  
-We use a **U-Net architecture built from scratch** to train and evaluate the model on 12-band satellite images.
+## 📌 Overview  
+This project focuses on **semantic segmentation of water bodies** using multispectral satellite imagery.  
+Accurate water segmentation is crucial for:  
+- 🌍 Water resources monitoring  
+- 🌊 Flood management  
+- 🌱 Environmental conservation
+
+We experiment with two approaches:  
+1. **Custom U-Net (from scratch)**  
+2. **U-Net with Pretrained Encoder (ResNet34)**  
+   - **Model A:** Trained on **all 12 bands**  
+   - **Model B:** Trained on **3 bands (NIR, SWIR1, SWIR2)** with `encoder_weights="imagenet"`
 
 ---
 
 ## 📂 Project Structure
-- **notebooks/** → Jupyter notebooks containing the code for data preprocessing, model training, and evaluation.  
+- **notebooks/** → contains two Jupyter notebooks:  
+  - `Water_Segmentation_From_Scratch.ipynb`: implements a U-Net model trained from scratch using all 12 spectral bands.  
+  - `Water_Segmentation_With_Pretrained.ipynb`: experiments with pretrained encoders:  
+    - **Model A:** U-Net trained on all 12 bands with `encoder_weights=None` (encoder initialized from scratch).  
+    - **Model B:** U-Net trained on 3 bands with `encoder_weights="imagenet"`.  
 - **task.pdf** → Task description and project requirements.  
 - **README.md** → Project documentation.  
 
 ---
 
-## ⚙️ Methodology
-1. **Data Preparation**  
-   - Extracted multispectral TIFF images and corresponding binary masks.  
-
-2. **Data Normalization (Per-Channel Normalization)**  
-   - Standardized each spectral band separately by subtracting its mean and dividing by its standard deviation.  
-
-3. **Data Visualization**  
-   - Visualized the 12 spectral bands individually.  
-   - Displayed example binary masks corresponding to the images.  
-
-   ![Satellite Bands](assets/Satellite%20Bands.jpeg)
-
-4. **Model Architecture and Training**  
-   - Implemented a **U-Net** with encoder–decoder structure.  
-   - Trained the model from scratch on 128×128 patches with 12 channels.  
-
-5. **Evaluation (IoU, Precision, Recall, and F1-score)**  
-   - Evaluated model predictions against ground truth masks.  
+## ⚙️ Dataset & Preprocessing  
+- Input: **12-band patches (128×128×12)**  
+- Output: **Binary mask (128×128×1)** – water vs non-water  
+- Preprocessing steps:  
+  - Per-channel standardization  
+  - Preserving spatial resolution  
+  - Train/Validation/Test split  
 
 ---
 
-## 📊 Results
-Final model performance on the test set:  
-- **IoU:** 0.7452  
-- **Precision:** 0.9268  
-- **Recall:** 0.7918  
-- **F1-score:** 0.8540  
+## 🧠 Models  
 
-Example of prediction vs ground truth:  
+### 🔹 1. Custom U-Net  
+- Implemented from scratch with **encoder-decoder + skip connections**.  
+- Trained for **25 epochs**.  
+- Achieved:  
+  - **Test IoU ≈ 0.74**  
+  - **Test F1-Score ≈ 0.85**  
 
+### 🔹 2. U-Net + ResNet34 (Pretrained)  
+
+- **Model A (All 12 Bands)**  
+  - Encoder initialized with **random weights** (since ImageNet pretraining is RGB).  
+  - Achieved:  
+    - **Test IoU ≈ 0.77**  
+    - **Test F1-Score ≈ 0.86**  
+
+- **Model B (3 Bands: NIR, SWIR1, SWIR2)**  
+  - Encoder initialized with **ImageNet weights** (`encoder_weights="imagenet"`).  
+  - Achieved:  
+    - **Test IoU ≈ 0.84**  
+    - **Test F1-Score ≈ 0.91**  
+
+---
+
+## 📊 Results  
+
+| Model                  | Bands Used   | IoU   | F1-Score | Precision | Recall |
+|-------------------------|-------------|-------|----------|-----------|--------|
+| Custom U-Net (scratch) | 12 bands    | 0.74  | 0.85     | 0.92      | 0.79   |
+| U-Net + ResNet34 (A)   | 12 bands    | 0.77  | 0.86     | 0.94      | 0.80   |
+| U-Net + ResNet34 (B)   | 3 bands     | 0.84  | 0.91     | 0.91      | 0.90   |
+
+---
+
+## 🖼️ Visualization  
 ![Prediction Example](assets/Prediction%20Example.png)
-
----
-
-## 🚀 Tech Stack
-- Python  
-- TensorFlow / Keras  
-- NumPy, OpenCV, scikit-learn  
-- Matplotlib
+![Prediction Example](assets/Prediction%20Example.png)
+![Prediction Example](assets/Prediction%20Example.png)
+![Prediction Example](assets/Prediction%20Example.png)
