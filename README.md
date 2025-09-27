@@ -27,12 +27,18 @@ We experiment with two approaches:
 ---
 
 ## ⚙️ Dataset & Preprocessing  
-- Input: **12-band patches (128×128×12)**  
-- Output: **Binary mask (128×128×1)** – water vs non-water  
-- Preprocessing steps:  
-  - Per-channel standardization  
-  - Preserving spatial resolution  
-  - Train/Validation/Test split  
+
+We use the **Harmonized Sentinel-2 / Landsat dataset**, which provides 12-band multispectral patches along with binary water masks.  
+
+- **Input:** 128×128×12 patches  
+- **Output:** 128×128×1 binary masks (water vs non-water)  
+
+![Spectral Bands](assets/bands.png)  
+
+### 🔄 Preprocessing Steps  
+- Per-channel standardization  
+- Patch extraction (128×128)  
+- Train/Validation/Test split  
 
 ---
 
