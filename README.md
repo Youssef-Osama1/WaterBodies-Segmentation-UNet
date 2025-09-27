@@ -33,7 +33,7 @@ We use the **Harmonized Sentinel-2 / Landsat dataset**, which provides 12-band m
 - **Input:** 128×128×12 patches  
 - **Output:** 128×128×1 binary masks (water vs non-water)  
 
-![Spectral Bands](assets/bands.png)  
+![Spectral Bands](assets/Satellite%20Bands.jpeg)  
 
 ### 🔄 Preprocessing Steps  
 - Per-channel standardization  
