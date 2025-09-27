@@ -72,7 +72,7 @@ We experiment with two approaches:
 ---
 
 ## 🖼️ Visualization  
-![Prediction Example](assets/Prediction%20Example.png)
-![Prediction Example](assets/Prediction%20Example.png)
-![Prediction Example](assets/Prediction%20Example.png)
-![Prediction Example](assets/Prediction%20Example.png)
+![Prediction Example](assets/Prediction%20Example1.png)
+![Prediction Example](assets/Prediction%20Example2.png)
+![Prediction Example](assets/Prediction%20Example3.png)
+![Prediction Example](assets/Prediction%20Example4.png)
