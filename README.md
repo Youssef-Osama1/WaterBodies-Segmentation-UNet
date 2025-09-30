@@ -57,7 +57,7 @@ We use the **Harmonized Sentinel-2 / Landsat dataset**, which provides 12-band m
   - Encoder initialized with **random weights** (since ImageNet pretraining is RGB).  
   - Achieved:  
     - **Test IoU ≈ 0.77**  
-    - **Test F1-Score ≈ 0.86**  
+    - **Test F1-Score ≈ 0.87**  
 
 - **Model B (3 Bands: NIR, SWIR1, SWIR2)**  
   - Encoder initialized with **ImageNet weights** (`encoder_weights="imagenet"`).  
@@ -72,7 +72,7 @@ We use the **Harmonized Sentinel-2 / Landsat dataset**, which provides 12-band m
 | Model                  | Bands Used   | IoU   | F1-Score | Precision | Recall |
 |-------------------------|-------------|-------|----------|-----------|--------|
 | Custom U-Net (scratch) | 12 bands    | 0.74  | 0.85     | 0.92      | 0.79   |
-| U-Net + ResNet34 (A)   | 12 bands    | 0.77  | 0.86     | 0.94      | 0.80   |
+| U-Net + ResNet34 (A)   | 12 bands    | 0.77  | 0.87     | 0.92      | 0.83   |
 | U-Net + ResNet34 (B)   | 3 bands     | 0.84  | 0.91     | 0.91      | 0.90   |
 
 ---
