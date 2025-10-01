@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Segmentation Deep Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient-start: #0a142f;
+            --bg-gradient-end: #030613;
+            --primary-blue: #007aff;
+            --text-light: #ffffff;
+            --text-secondary: #a9b6d1;
+        }
+        body { margin: 0; font-family: 'Manrope', sans-serif; background: radial-gradient(ellipse at top, var(--bg-gradient-start ), var(--bg-gradient-end)); color: var(--text-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; box-sizing: border-box; }
+        .main-container { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2rem; width: 100%; max-width: 920px; }
+        .header-text { max-width: 800px; }
+        h1 { font-size: clamp(2.5rem, 7vw, 4rem); font-weight: 800; line-height: 1.1; margin: 0; }
+        h2 { font-size: clamp(1rem, 3vw, 1.2rem); font-weight: 400; color: var(--text-secondary); margin-top: 0.75rem; }
+        .upload-area { background: rgba(10,20,47,0.45); padding: 1.25rem; border-radius: 12px; border: 1px solid #1f2a44; width: 100%; max-width: 640px; }
+        .controls { display:flex; gap:12px; justify-content:center; margin-top:12px; flex-wrap:wrap; }
+        .btn { padding: 10px 22px; border-radius: 999px; border: none; font-weight:700; cursor:pointer; }
+        .btn-primary { background: linear-gradient(90deg,#1e90ff,#007aff); color: white; box-shadow: 0 8px 24px rgba(0,122,255,0.18); }
+        input[type="file"] { display:none; }
+        .hint { color: var(--text-secondary); font-size: .95rem; margin-top:8px; }
+        .result-box { width:100%; max-width:640px; background: rgba(10,20,47,0.5); padding:16px; border-radius:12px; border:1px solid #223052; margin-top:12px; text-align:center; }
+        .result-box img { max-width:220px; border-radius:8px; display:block; margin:0 auto; }
+        .debug-links { text-align:left; margin-top:10px; color:var(--text-secondary); font-size:0.95rem; }
+        .small { font-size:0.9rem; color:var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header-text">
+            <h1>Water Segmentation Deep Learning</h1>
+            <h2>Advanced Satellite Imagery Analysis</h2>
+        </div>
+
+        <div class="upload-area">
+            <form id="upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('predict') }}">
+                <label style="display:block; cursor:pointer;">
+                    <input id="fileInput" type="file" name="image" accept=".tif,.tiff" required>
+                    <div style="display:flex; align-items:center; gap:14px; justify-content:center; flex-direction:column;">
+                        <img src="{{ url_for('static', filename='img/hero-image.png') }}" alt="hero" style="width:160px; opacity:0.95;">
+                        <div class="hint" id="file-name">Choose a .tif/.tiff image (12 bands)</div>
+                    </div>
+                </label>
+
+                <div class="controls">
+                    <button class="btn btn-primary" type="submit">Predict (use channels [4,5,6])</button>
+                </div>
+            </form>
+        </div>
+
+        {% if predicted_image %}
+        <div class="result-box">
+            <h3>Predicted Water Mask</h3>
+            <img src="{{ predicted_image }}" alt="Predicted Mask">
+            <div class="debug-links">
+                {% if debug_files %}
+                    <p class="small">Debug files:</p>
+                    <ul>
+                        {% if debug_files["Input visual"] %}<li><a href="{{ debug_files['Input visual'] }}" target="_blank">Input visual</a></li>{% endif %}
+                        {% if debug_files["Probability map"] %}<li><a href="{{ debug_files['Probability map'] }}" target="_blank">Probability map</a></li>{% endif %}
+                        {% if debug_files["Binary mask"] %}<li><a href="{{ debug_files['Binary mask'] }}" target="_blank">Binary mask</a></li>{% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('file-name');
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                fileName.textContent = `Selected: ${fileInput.files[0].name} — Uploading...`;
+            } else {
+                fileName.textContent = 'Choose a .tif/.tiff image (12 bands)';
+            }
+        });
+        window.addEventListener('dragover', (e)=> e.preventDefault());
+        window.addEventListener('drop', (e)=> {
+            e.preventDefault();
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                fileName.textContent = `Selected: ${e.dataTransfer.files[0].name} — Uploading...`;
+            }
+        });
+    </script>
+</body>
+</html>
